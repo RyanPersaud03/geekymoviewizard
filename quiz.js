@@ -17,7 +17,30 @@ let currentQuestion = 0;
 let question = [
     {
         question: 'What are your favourite movie genres?',
-        options: ['Action', 'Adventure', 'Animation', 'Biography', 'Comedy', 'Crime', 'Documentary', 'Drama', 'Family', 'Fantasy', 'Film-Noir', 'History', 'Horror', 'Music', 'Musical', 'Mystery', 'Romance', 'Sci-Fi', 'Short', 'Sport', 'Thriller', 'War', 'Western']
+        options:
+            ['Action',
+                'Adventure',
+                'Animation',
+                'Biography',
+                'Comedy',
+                'Crime',
+                'Documentary',
+                'Drama',
+                'Family',
+                'Fantasy',
+                'Film-Noir',
+                'History',
+                'Horror',
+                'Music',
+                'Musical',
+                'Mystery',
+                'Romance',
+                'Sci-Fi',
+                'Short',
+                'Sport',
+                'Thriller',
+                'War',
+                'Western']
     },
     {
         question: 'Do you watch foreign films?',
@@ -29,15 +52,45 @@ let question = [
     },
     {
         question: 'Which are your favourite actors?',
-        options: ['Brad Pitt', 'Adam Sandler', 'Leonardo DiCaprio', 'Leonardo DiCaprio', 'Samuel L.Jackson', 'Chris Hemsworth', 'Dwayne Johnson']
+        options:
+            ['Adam Sandler',
+                'Al Pacino',
+                'Brad Pitt',
+                'Chris Hemsworth',
+                'Christian Bale',
+                'Dwayne Johnson',
+                'George Clooney',
+                'Jim Carrey',
+                'Leonardo DiCaprio',
+                'Matt Damon',
+                'Morgan Freeman',
+                'Nicolas Cage',
+                'Robert De Niro',
+                'Samuel L.Jackson',
+                'Tom Hanks']
     },
     {
         question: 'Which are your favourite actresses?',
-        options: ['Scarlett Johansson', 'Jennifer Lawrence', 'Meryl Streep', 'Viola Davis', 'Amy Adams', 'Emma Stone']
+        options:
+            ['Amy Adams',
+                'Anne Hathaway',
+                'Angelina Jolie',
+                'Emma Stone',
+                'Jennifer Lawrence',
+                'Julianne Moore',
+                'Kate Winslet',
+                'Meryl Streep',
+                'Natalie Portman',
+                'Olivia Wilde',
+                'Penelope Cruz',
+                'Sandra Bullock',
+                'Scarlett Johansson',
+                'Uma Thurman',
+                'Viola Davis']
     },
     {
         question: 'Based on below rating system, describe your mood today.',
-        options: ['']
+        options: ['😀', '😐', '😟']
     }
 ];
 
