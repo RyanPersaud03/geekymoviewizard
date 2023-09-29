@@ -14,7 +14,7 @@
 
       <main>
         <div id="menu">
-          <button>Wizard Generator</button>
+          <button id="wizard-generator-button">Wizard Generator</button>
           <button>Top Movies</button>
           <button>Viewings</button>
         </div>
@@ -60,5 +60,15 @@
         <p>&copy; 2023 Geeky Movie Generator</p>
       </footer>
     </div>
+
+    <script>
+      var wizardGeneratorButton = document.getElementById(
+        "wizard-generator-button"
+      );
+
+      wizardGeneratorButton.addEventListener("click", function () {
+        window.location.href = "quiz.html";
+      });
+    </script>
   </body>
 </html>
