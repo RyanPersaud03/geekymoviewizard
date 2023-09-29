@@ -1,3 +1,13 @@
+var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a"
+// var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
+
+fetch(url).then(function(res){
+    return res.json()
+}).then(function(data){
+    console.log(data)
+})
+console.log("Hello Movie Lovers")
+
 //variables & objects
 var userAnswer = [];
 var questionIndex = 0;
