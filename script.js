@@ -5,8 +5,24 @@ fetch(url).then(function(res){
     return res.json()
 }).then(function(data){
     console.log(data)
+   //  console.log(`Genre`,data.results[0].genre_ids)
+   for (var i = 0; i < data.results.length; i++) {
+    var genreIds = data.results[i].genre_ids;
+    console.log(`Movie Genre` + (i + 1) + `:`, genreIds);
+}
+
+for (var i = 0; i < data.results.length; i++) {
+    var movieTitles = data.results[i].original_title;
+    console.log(`Movie Title` + (i + 1) + `:`, movieTitles);
+}
+
+  for (var i = 0; i < data.results.length; i++) {
+    var movieRatings = data.results[i].vote_average;
+    console.log(`Movie Rating` + (i + 1) + `:`, movieRatings);
+}
+
 })
-console.log("Hello Movie Lovers")
+
 
 // //variables & objects
 // var userAnswer = [];
