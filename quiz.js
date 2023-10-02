@@ -1,4 +1,5 @@
-var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a"
+var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a";
+var url = "https://api.themoviedb.org/3/discover/movie?q=${apiKey}";
 // var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
 
 fetch(url).then(function (res) {
@@ -6,21 +7,21 @@ fetch(url).then(function (res) {
 }).then(function (data) {
     console.log(data)
 
-     // Movie Genre
-   for (var i = 0; i < data.results.length; i++) {
-    var genreIds = data.results[i].genre_ids;
-    console.log(`Movie Genre` + (i + 1) + `:`, genreIds);
-}
-// Movie Title
-for (var i = 0; i < data.results.length; i++) {
-    var movieTitles = data.results[i].original_title;
-    console.log(`Movie Title` + (i + 1) + `:`, movieTitles);
-}
-// Movie Rating
-  for (var i = 0; i < data.results.length; i++) {
-    var movieRatings = data.results[i].vote_average;
-    console.log(`Movie Rating` + (i + 1) + `:`, movieRatings);
-}
+    // Movie Genre
+    for (var i = 0; i < data.results.length; i++) {
+        var genreIds = data.results[i].genre_ids;
+        console.log(`Movie Genre` + (i + 1) + `:`, genreIds);
+    }
+    // Movie Title
+    for (var i = 0; i < data.results.length; i++) {
+        var movieTitles = data.results[i].original_title;
+        console.log(`Movie Title` + (i + 1) + `:`, movieTitles);
+    }
+    // Movie Rating
+    for (var i = 0; i < data.results.length; i++) {
+        var movieRatings = data.results[i].vote_average;
+        console.log(`Movie Rating` + (i + 1) + `:`, movieRatings);
+    }
 })
 
 
