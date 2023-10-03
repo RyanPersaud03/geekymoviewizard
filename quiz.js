@@ -1,10 +1,10 @@
 
 // variables & objects
-
-
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a";
-var url = `https://api.themoviedb.org/3/discover/movie?q=${apiKey}`;
-var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16";
+var url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16`;
+// var url = "https://api.themoviedb.org/3/discover/movie?q=${apiKey}&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16";
+var userAnswers = [];
+var currentQuestion = 0;
 
 fetch(url).then(function (res) {
   return res.json()
@@ -32,14 +32,7 @@ fetch('https://api.themoviedb.org/3/movie/550/credits?api_key=10650d6cbf9c28b020
   return res.json()
 }).then(function (data) {
   console.log(data)
- 
 })
-
-
-//variables & objects
-
-var userAnswers = [];
-var currentQuestion = 0;
 
 // Wizard Generator Questions.
 let question = [
@@ -98,22 +91,7 @@ let question = [
         'Robert De Niro',
         'Samuel L.Jackson',
         'Tom Hanks'],
-  },
-  {
-    question: "Which are your favorite actresses?",
-    options: [
-      "Scarlett Johansson",
-      "Jennifer Lawrence",
-      "Meryl Streep",
-      "Viola Davis",
-      "Amy Adams",
-      "Emma Stone",
-    ],
     multiple: true, // Allow multiple answers
-  },
-  {
-    question: "Based on below rating system, describe your mood today.",
-    options: ["😃", "😊", "😐", "😔", "😢"],
   },
   {
     question: 'Which are your favourite actresses?',
@@ -132,11 +110,12 @@ let question = [
         'Sandra Bullock',
         'Scarlett Johansson',
         'Uma Thurman',
-        'Viola Davis']
+        'Viola Davis'],
+    multiple: true, // Allow multiple answers
   },
   {
     question: 'Based on below rating system, describe your mood today.',
-    options: ['😀', '😐', '😟']
+    options: ['😀', '😐', '😟'],
   },
 
   // Function to display the question
@@ -145,33 +124,33 @@ let question = [
     var optionsContainer = document.getElementById("options-container");
 
     // Set the question text
-    questionContainer.innerHTML = question[questionIndex].question;
+    questionContainer.innerHTML = questionArray[questionIndex].question;
 
     // Clear previous options
     optionsContainer.innerHTML = "";
 
     // Display options
-    for (var i = 0; i < question[questionIndex].options.length; i++) {
+    for (var i = 0; i < questionArray[questionIndex].options.length; i++) {
       var option = document.createElement("button");
-      option.innerHTML = question[questionIndex].options[i];
+      option.innerHTML = questionArray[questionIndex].options[i];
       option.addEventListener("click", handleOptionClick);
       optionsContainer.appendChild(option);
     }
-  }
+  },
 
-// Event handler for option click
-function handleOptionClick(event) {
+  // Event handler for option click
+  function handleOptionClick(event) {
     var selectedOption = event.target.innerHTML;
     userAnswers.push(selectedOption);
 
     // Move to the next question or show the final result
-    questionIndex++;
-    if (questionIndex < question.length) {
-      showQuestion(questionIndex);
+    currentQuestion++;
+    if (currentQuestion < questionArray.length) {
+      showQuestion(currentQuestion);
     } else {
       displayUserAnswers();
     }
-  }
+  },
 
-// Initialize by showing the first question
-showQuestion(currentQuestion);
+  // Initialize by showing the first question
+  showQuestion(currentQuestion),]
