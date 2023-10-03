@@ -1,4 +1,7 @@
 
+// variables & objects
+
+
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a";
 var url = `https://api.themoviedb.org/3/discover/movie?q=${apiKey}`;
 var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16";
@@ -27,11 +30,11 @@ fetch(url).then(function (res) {
 
 
 //variables & objects
-var userAnswers = [];
-var questionIndex = 0;
-let currentQuestion = 0;
 
-//Wizard Generator Questions.
+var userAnswers = [];
+var currentQuestion = 0;
+
+// Wizard Generator Questions.
 let question = [
   {
     question: "What are your favorite movie genres?",
@@ -60,6 +63,7 @@ let question = [
       "War",
       "Western",
     ],
+    multiple: true, // Allow multiple answers
   },
   {
     question: "Do you watch foreign films?",
@@ -87,6 +91,22 @@ let question = [
         'Robert De Niro',
         'Samuel L.Jackson',
         'Tom Hanks'],
+  },
+  {
+    question: "Which are your favorite actresses?",
+    options: [
+      "Scarlett Johansson",
+      "Jennifer Lawrence",
+      "Meryl Streep",
+      "Viola Davis",
+      "Amy Adams",
+      "Emma Stone",
+    ],
+    multiple: true, // Allow multiple answers
+  },
+  {
+    question: "Based on below rating system, describe your mood today.",
+    options: ["😃", "😊", "😐", "😔", "😢"],
   },
   {
     question: 'Which are your favourite actresses?',
@@ -146,18 +166,5 @@ function handleOptionClick(event) {
     }
   }
 
-  // Function to display user answers
-function displayUserAnswers() {
-    var resultContainer = document.getElementById("result-container");
-    resultContainer.innerHTML = "User Answers: " + userAnswers.join(',');
-  }
-
-// Initialize by showing the first question
-showQuestion(questionIndex){
-    var resultContainer = document.getElementById('result-container');
-    resultContainer.innerHTML = 'User Answers: ' + userAnswers.join(',');
-  }
-
 // Initialize by showing the first question
 showQuestion(currentQuestion);
-
