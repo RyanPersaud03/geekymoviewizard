@@ -1,4 +1,7 @@
 
+// variables & objects
+
+
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a";
 var url = "https://api.themoviedb.org/3/discover/movie?q=${apiKey}";
 var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16";
@@ -27,11 +30,11 @@ fetch(url).then(function (res) {
 
 
 //variables & objects
-var userAnswers = [];
-var questionIndex = 0;
-let currentQuestion = 0;
 
-//Wizard Generator Questions.
+var userAnswers = [];
+var currentQuestion = 0;
+
+// Wizard Generator Questions.
 let question = [
   {
     question: "What are your favorite movie genres?",
@@ -60,6 +63,7 @@ let question = [
       "War",
       "Western",
     ],
+    multiple: true, // Allow multiple answers
   },
   {
     question: "Do you watch foreign films?",
@@ -69,6 +73,98 @@ let question = [
     question: "Do you prefer animated or live-action films?",
     options: ["Animated", "Live-Action"],
   },
+
+  {
+    question: "Which are your favorite actors?",
+    options: [
+      "Brad Pitt",
+      "Adam Sandler",
+      "Leonardo DiCaprio",
+      "Samuel L. Jackson",
+      "Chris Hemsworth",
+      "Dwayne Johnson",
+    ],
+    multiple: true, // Allow multiple answers
+  },
+  {
+    question: "Which are your favorite actresses?",
+    options: [
+      "Scarlett Johansson",
+      "Jennifer Lawrence",
+      "Meryl Streep",
+      "Viola Davis",
+      "Amy Adams",
+      "Emma Stone",
+    ],
+    multiple: true, // Allow multiple answers
+  },
+  {
+    question: "Based on below rating system, describe your mood today.",
+    options: ["😃", "😊", "😐", "😔", "😢"],
+  },
+];
+
+// Function to display the question
+function showQuestion(questionIndex) {
+  var questionContainer = document.getElementById("question-text");
+  var optionsContainer = document.getElementById("options-container");
+
+  // Set the question text
+  questionContainer.innerHTML = question[questionIndex].question;
+
+  // Clear previous options
+  optionsContainer.innerHTML = "";
+
+  // Display options
+  for (var i = 0; i < question[questionIndex].options.length; i++) {
+    var option = document.createElement("label");
+    var checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = question[questionIndex].options[i];
+    checkbox.name = "answer";
+    option.appendChild(checkbox);
+    option.appendChild(
+      document.createTextNode(question[questionIndex].options[i])
+    );
+    optionsContainer.appendChild(option);
+  }
+
+  // Hide or show the "Next" button based on the current question
+  var nextButton = document.getElementById("next-button");
+  if (questionIndex === question.length - 1) {
+    nextButton.style.display = "none";
+  } else {
+    nextButton.style.display = "block";
+  }
+}
+
+// Event handler for the "Next" button click
+function handleNextButtonClick() {
+  // Get all selected options for the current question
+  var selectedOptions = document.querySelectorAll(
+    'input[name="answer"]:checked'
+  );
+
+  // Extract the values of selected options
+  var selectedValues = [];
+  selectedOptions.forEach(function (option) {
+    selectedValues.push(option.value);
+  });
+
+  // Store the selected values in userAnswers
+  userAnswers[currentQuestion] = selectedValues;
+
+  // Move to the next question
+  currentQuestion++;
+
+  // Display the next question or user answers
+  if (currentQuestion < question.length) {
+    showQuestion(currentQuestion);
+  } else {
+    displayUserAnswers();
+  }
+}
+
 question: 'Which are your favourite actors?',
         options:
             ['Adam Sandler',
@@ -146,18 +242,20 @@ function handleOptionClick(event) {
     displayUserAnswers();
   }
 
+
   // Function to display user answers
 function displayUserAnswers() {
   var resultContainer = document.getElementById("result-container");
-  resultContainer.innerHTML = "User Answers: " + userAnswers.join(", ");
+  resultContainer.innerHTML = "User Answers: ";
+  userAnswers.forEach(function (answers, index) {
+    resultContainer.innerHTML +=
+      "<br>Question " + (index + 1) + ": " + answers.join(", ");
+  });
 }
 
-// Initialize by showing the first question
-showQuestion(questionIndex);
-    var resultContainer = document.getElementById('result-container');
-    resultContainer.innerHTML = 'User Answers: ' + userAnswer.join(', ');
-}
+// Add an event listener to the "Next" button
+var nextButton = document.getElementById("next-button");
+nextButton.addEventListener("click", handleNextButtonClick);
 
 // Initialize by showing the first question
 showQuestion(currentQuestion);
-

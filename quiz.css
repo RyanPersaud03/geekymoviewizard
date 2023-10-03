@@ -1,4 +1,3 @@
-/* Style for the quiz container */
 #quiz-container {
   width: 100%;
   max-width: 1000px;
@@ -10,24 +9,24 @@
   text-align: center;
 }
 
-/* Style for each question card */
 .question-card {
   border: 2px solid #ccc;
   padding: 40px;
-  margin: 20px 0;
+  margin: 20px auto;
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-/* Style for the question text */
 #question-container {
   font-size: 24px;
   margin-bottom: 20px;
   color: #ff5252;
 }
 
-/* Style for answer options */
 .options-container {
   text-align: left;
 }
@@ -42,18 +41,17 @@
   margin: 10px 0;
 }
 
-/* Style for answer options */
 .options-container button {
-  padding: 60px 90px;
-  font-size: 50px;
+  padding: 20px 40px;
+  font-size: 20px;
   background-color: #ff6f61;
   color: #fff;
   border: none;
   border-radius: 10px;
   cursor: pointer;
-  display: block;
-  width: 100%;
+  width: auto;
   transition: background-color 0.3s;
+  margin-top: auto;
 }
 
 .options-container button:hover {
