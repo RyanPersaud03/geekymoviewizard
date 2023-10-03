@@ -28,6 +28,13 @@ fetch(url).then(function (res) {
   }
 })
 
+fetch('https://api.themoviedb.org/3/movie/550/credits?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a').then(function (res) {
+  return res.json()
+}).then(function (data) {
+  console.log(data)
+ 
+})
+
 
 //variables & objects
 
