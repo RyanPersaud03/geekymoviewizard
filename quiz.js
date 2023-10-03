@@ -32,7 +32,7 @@ fetch('https://api.themoviedb.org/3/movie/550/credits?api_key=10650d6cbf9c28b020
   return res.json()
 }).then(function (data) {
   console.log(data)
- 
+
 })
 
 
@@ -138,40 +138,41 @@ let question = [
     question: 'Based on below rating system, describe your mood today.',
     options: ['😀', '😐', '😟']
   },
+]
 
-  // Function to display the question
-  function showQuestion(questionIndex) {
-    var questionContainer = document.getElementById("question-container");
-    var optionsContainer = document.getElementById("options-container");
+// Function to display the question
+function showQuestion(questionIndex) {
+  var questionContainer = document.getElementById("question-container");
+  var optionsContainer = document.getElementById("options-container");
 
-    // Set the question text
-    questionContainer.innerHTML = question[questionIndex].question;
+  // Set the question text
+  questionContainer.innerHTML = question[questionIndex].question;
 
-    // Clear previous options
-    optionsContainer.innerHTML = "";
+  // Clear previous options
+  optionsContainer.innerHTML = "";
 
-    // Display options
-    for (var i = 0; i < question[questionIndex].options.length; i++) {
-      var option = document.createElement("button");
-      option.innerHTML = question[questionIndex].options[i];
-      option.addEventListener("click", handleOptionClick);
-      optionsContainer.appendChild(option);
-    }
+  // Display options
+  for (var i = 0; i < question[questionIndex].options.length; i++) {
+    var option = document.createElement("button");
+    option.innerHTML = question[questionIndex].options[i];
+    option.addEventListener("click", handleOptionClick);
+    optionsContainer.appendChild(option);
   }
+};
 
 // Event handler for option click
 function handleOptionClick(event) {
-    var selectedOption = event.target.innerHTML;
-    userAnswers.push(selectedOption);
+  var selectedOption = event.target.innerHTML;
+  userAnswers.push(selectedOption);
 
-    // Move to the next question or show the final result
-    questionIndex++;
-    if (questionIndex < question.length) {
-      showQuestion(questionIndex);
-    } else {
-      displayUserAnswers();
-    }
+  // Move to the next question or show the final result
+  questionIndex++;
+  if (questionIndex < question.length) {
+    showQuestion(questionIndex);
+  } else {
+    displayUserAnswers();
   }
+};
 
 // Initialize by showing the first question
 showQuestion(currentQuestion);
