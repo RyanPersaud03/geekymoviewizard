@@ -138,7 +138,7 @@ let question = [
       option.addEventListener("click", handleOptionClick);
       optionsContainer.appendChild(option);
     }
-  }
+  },
 
 // Event handler for option click
 function handleOptionClick(event) {
