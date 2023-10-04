@@ -15,7 +15,7 @@
       <main>
         <div id="menu">
           <button id="wizard-generator-button">Wizard Generator</button>
-          <button>Top Movies</button>
+          <button id="topmovies">Top Movies</button>
           <button>Viewings</button>
         </div>
         <section id="about-us">
@@ -68,6 +68,12 @@
 
       wizardGeneratorButton.addEventListener("click", function () {
         window.location.href = "quiz.html";
+      });
+
+      var topMoviesButton = document.getElementById("topmovies");
+
+      topMoviesButton.addEventListener("click", function () {
+        window.location.href = "results.html";
       });
     </script>
     <script src=script.js></script>

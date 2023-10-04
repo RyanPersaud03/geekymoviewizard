@@ -1,0 +1,63 @@
+.topmovies {
+  background-color: #ff5252;
+  color: #fff;
+  text-align: center;
+  padding: 10px;
+}
+
+nav {
+  background-color: #ff5252;
+  padding: 10px;
+}
+
+.dropbtn {
+  background-color: #ff5252;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  font-size: 16px;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown-content a {
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  color: #333;
+}
+
+.dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.show {
+  display: block;
+}
+.container {
+  margin-top: 20px;
+  color: #ff5252;
+}
+
+.card {
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  padding: 20px;
+}
+
+@media (min-width: 768px) {
+  .card {
+    width: calc(50% - 10px);
+    float: left;
+  }
+}
