@@ -5,7 +5,79 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="results.css" />
     <script src="results.js"></script>
-    <title>Results</title>
+    <title>Top Movies</title>
+    <div class="topmovies">
+      <h1>Top Movies</h1>
+    </div>
   </head>
-  <body></body>
+  <body>
+    <nav>
+      <div class="dropdown">
+        <button class="dropbtn" id="genreDropdownBtn">Genres</button>
+        <div class="dropdown-content" id="genreDropdownContent">
+          <a href="#">Action</a>
+          <a href="#">Adventure</a>
+          <a href="#">Comedy</a>
+          <a href="#">Drama</a>
+          <a href="#">Horror</a>
+          <a href="#">Science Fiction</a>
+          <a href="#">Fantasy</a>
+          <a href="#">Romance</a>
+          <a href="#">Mystery</a>
+          <a href="#">Thriller</a>
+          <a href="#">Western</a>
+          <a href="#">Animation</a>
+          <a href="#">Musical</a>
+          <a href="#">War</a>
+          <a href="#">Biography</a>
+          <a href="#">Historical</a>
+          <a href="#">Documentary</a>
+          <a href="#">Fantasy-Adventure</a>
+          <a href="#">Superhero</a>
+          <a href="#">Psychological</a>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container">
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">Genre Type</div>
+            <div class="card-body"></div>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-header">Listings</div>
+            <div class="card-body"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const genreDropdownBtn = document.getElementById("genreDropdownBtn");
+      const genreDropdownContent = document.getElementById(
+        "genreDropdownContent"
+      );
+
+      genreDropdownBtn.addEventListener("click", function () {
+        genreDropdownContent.classList.toggle("show");
+      });
+
+      window.onclick = function (event) {
+        if (!event.target.matches("#genreDropdownBtn")) {
+          const dropdowns = document.getElementsByClassName("dropdown-content");
+          for (let i = 0; i < dropdowns.length; i++) {
+            const openDropdown = dropdowns[i];
+            if (openDropdown.classList.contains("show")) {
+              openDropdown.classList.remove("show");
+            }
+          }
+        }
+      };
+    </script>
+  </body>
 </html>
