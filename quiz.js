@@ -1,45 +1,40 @@
-
 // variables & objects
-
-
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a";
-var url = `https://api.themoviedb.org/3/discover/movie?q=${apiKey}`;
-var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16";
+var url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16`;
 
-fetch(url).then(function (res) {
-  return res.json()
-}).then(function (data) {
-  console.log(data)
+// Function to display the question
+function showQuestion(questionIndex) {
+  var questionArray = question[questionIndex];
+  var optionsContainer = document.getElementById("options-container");
 
-  // Movie Genre
-  for (var i = 0; i < data.results.length; i++) {
-    var genreIds = data.results[i].genre_ids;
-    console.log(`Movie Genre` + (i + 1) + `:`, genreIds);
+  // Set the question text
+  document.getElementById("question-text").innerHTML = questionArray.question;
+
+  // Clear previous options
+  optionsContainer.innerHTML = "";
+
+  // Display options
+  for (var i = 0; i < questionArray.options.length; i++) {
+    var option = document.createElement("button");
+    option.innerHTML = questionArray.options[i];
+    option.addEventListener("click", handleOptionClick);
+    optionsContainer.appendChild(option);
   }
-  // Movie Title
-  for (var i = 0; i < data.results.length; i++) {
-    var movieTitles = data.results[i].original_title;
-    console.log(`Movie Title` + (i + 1) + `:`, movieTitles);
+}
+
+// Event handler for option click
+function handleOptionClick(event) {
+  var selectedOption = event.target.innerHTML;
+  userAnswers.push(selectedOption);
+
+  // Move to the next question or show the final result
+  currentQuestion++;
+  if (currentQuestion < question.length) {
+    showQuestion(currentQuestion);
+  } else {
+    displayUserAnswers();
   }
-  // Movie Rating
-  for (var i = 0; i < data.results.length; i++) {
-    var movieRatings = data.results[i].vote_average;
-    console.log(`Movie Rating` + (i + 1) + `:`, movieRatings);
-  }
-})
-
-fetch('https://api.themoviedb.org/3/movie/550/credits?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a').then(function (res) {
-  return res.json()
-}).then(function (data) {
-  console.log(data)
-
-})
-
-
-//variables & objects
-
-var userAnswers = [];
-var currentQuestion = 0;
+}
 
 // Wizard Generator Questions.
 let question = [
@@ -98,22 +93,7 @@ let question = [
         'Robert De Niro',
         'Samuel L.Jackson',
         'Tom Hanks'],
-  },
-  {
-    question: "Which are your favorite actresses?",
-    options: [
-      "Scarlett Johansson",
-      "Jennifer Lawrence",
-      "Meryl Streep",
-      "Viola Davis",
-      "Amy Adams",
-      "Emma Stone",
-    ],
     multiple: true, // Allow multiple answers
-  },
-  {
-    question: "Based on below rating system, describe your mood today.",
-    options: ["😃", "😊", "😐", "😔", "😢"],
   },
   {
     question: 'Which are your favourite actresses?',
@@ -132,47 +112,57 @@ let question = [
         'Sandra Bullock',
         'Scarlett Johansson',
         'Uma Thurman',
-        'Viola Davis']
+        'Viola Davis'],
+    multiple: true, // Allow multiple answers
   },
   {
     question: 'Based on below rating system, describe your mood today.',
     options: ['😀', '😐', '😟']
   },
-]
 
-// Function to display the question
-function showQuestion(questionIndex) {
-  var questionContainer = document.getElementById("question-container");
-  var optionsContainer = document.getElementById("options-container");
+  // Function to display the question
+  function showQuestion(questionIndex) {
+    var questionContainer = document.getElementById("question-container");
+    var optionsContainer = document.getElementById("options-container");
 
-  // Set the question text
-  questionContainer.innerHTML = question[questionIndex].question;
+    // Set the question text
+    questionContainer.innerHTML = question[questionIndex].question;
 
-  // Clear previous options
-  optionsContainer.innerHTML = "";
+    // Clear previous options
+    optionsContainer.innerHTML = "";
 
-  // Display options
-  for (var i = 0; i < question[questionIndex].options.length; i++) {
-    var option = document.createElement("button");
-    option.innerHTML = question[questionIndex].options[i];
-    option.addEventListener("click", handleOptionClick);
-    optionsContainer.appendChild(option);
+    // Display options
+    for (var i = 0; i < question[questionIndex].options.length; i++) {
+      var option = document.createElement("button");
+      option.innerHTML = question[questionIndex].options[i];
+      option.addEventListener("click", handleOptionClick);
+      optionsContainer.appendChild(option);
+    }
   }
-};
 
 // Event handler for option click
 function handleOptionClick(event) {
-  var selectedOption = event.target.innerHTML;
-  userAnswers.push(selectedOption);
+    var selectedOption = event.target.innerHTML;
+    userAnswers.push(selectedOption);
 
-  // Move to the next question or show the final result
-  questionIndex++;
-  if (questionIndex < question.length) {
-    showQuestion(questionIndex);
-  } else {
-    displayUserAnswers();
+    // Move to the next question or show the final result
+    questionIndex++;
+    if (questionIndex < question.length) {
+      showQuestion(questionIndex);
+    } else {
+      displayUserAnswers();
+    }
   }
-};
 
 // Initialize by showing the first question
-showQuestion(currentQuestion);
+window.onload = function () {
+  showQuestion(currentQuestion);
+};
+function displayUserAnswers() {
+  var resultContainer = document.getElementById("result-container");
+  resultContainer.innerHTML = "User's answers: " + userAnswers.join(", ");
+};
+function redirectToResultsPage() {
+  window.location.href = "results.html";  // direct user to results page
+};
+
