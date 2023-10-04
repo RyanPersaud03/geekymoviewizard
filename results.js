@@ -1,12 +1,13 @@
-var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
-const baseUrl = "https://api.themoviedb.org/3";
+var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a"
+// var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
 
-fetch(url)
-    .then(function (res) {
-        return res.json();
-    })
-    .then(function (data) {
-        console.log(data);
+// var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
+
+
+fetch(url).then(function (res) {
+    return res.json()
+}).then(function (data) {
+    console.log(data)
 
         // Movie Genre
         for (var i = 0; i < data.results.length; i++) {
@@ -23,15 +24,21 @@ fetch(url)
             var movieRatings = data.results[i].vote_average;
             console.log(`Movie Rating` + (i + 1) + `:`, movieRatings);
         }
-    });
-
-fetch('https://api.themoviedb.org/3/movie/550/credits?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a')
+        // Movie Rating
+        for (var i = 0; i < data.results.length; i++) {
+            var movieIds = data.results[i].id;
+            console.log(`Movie Ids` + (i + 1) + `:`, movieIds);
+            fetch(`https://api.themoviedb.org/3/movie/${movieIds}/credits?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a`)
     .then(function (res) {
         return res.json();
     })
     .then(function (data) {
         console.log(data);
     });
+        }
+
+    });
+
 
 function getMovies() {
     const selectedGenreId = document.getElementById('genre').value;
