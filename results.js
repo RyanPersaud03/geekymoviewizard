@@ -3,6 +3,7 @@ var tokenAuth = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDY1MGQ2Y2JmOWMyOGIwMjBlNmQxZT
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"; //TMDB API key
 var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
 // var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
+var selectedGenres = new Set(); // Set to store selected genres
 
 var genreIds = {
     "Action": 28,
@@ -25,11 +26,6 @@ var genreIds = {
     "War": 10752,
     "Western": 37,
 }
-
-mobiscroll.select('#multiple-select', {
-    inputElement: document.getElementById("genreDropdownContent"),
-    touchUi: false
-});
 
 fetch(baseUrl + apiKey).then(function (res) {
     return res.json()
@@ -66,28 +62,31 @@ fetch(baseUrl + apiKey).then(function (res) {
 
 });
 
-// Display Genre
-function getMovies() {
-    const selectedGenreId = document.getElementById("genre").value;
-    const url = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=${selectedGenreId}`;
 
-    fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-            displayMovies(data.results);
-        })
-        .catch((error) => console.error("Error fetching movies:", error));
+
+// Function to toggle the selection of a genre
+function toggleGenreSelection(genre) {
+    if (selectedGenres.has(genre)) {
+        selectedGenres.delete(genre);
+    } else {
+        selectedGenres.add(genre);
+    }
 }
-// Display Movies
-function displayMovies(movies) {
-    const movieList = document.getElementById("movieList");
-    movieList.innerHTML = "";
-    // Display Mvoie
-    movies.forEach((movie) => {
-        const li = document.createElement("li");
-        li.textContent = movie.title;
-        movieList.appendChild(li);
-    });
+
+// Update the genre list when a genre is clicked
+const genreDropdownContent = document.getElementById("genreDropdownContent");
+genreDropdownContent.addEventListener("click", function (event) {
+    if (event.target && event.target.nodeName == "A") {
+        const genre = event.target.getAttribute("data-genre");
+        toggleGenreSelection(genre);
+        updateSelectedGenresDisplay();
+    }
+});
+
+// Update the display of selected genres
+function updateSelectedGenresDisplay() {
+    const genreDisplay = document.getElementById("genre");
+    genreDisplay.textContent = Array.from(selectedGenres).join(", ");
 }
 
 const options = {
