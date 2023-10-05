@@ -87,16 +87,125 @@ let question = [
   },
   {
     question: 'Based on below rating system, describe your mood today.',
-    options: ['😀', '😐', '😟'],
-  }
-];
-var userAnswers = [];
-var currentQuestion = 0;
+    options: ['😀', '😐', '😟']
+  },
+  ];
 
-// Initialize by showing the first question
-window.onload = function () {
-  showQuestion(currentQuestion);
-};
+  // Function to display the question
+  function showQuestion(questionIndex) {
+    var questionContainer = document.getElementById("question-container");
+    var optionsContainer = document.getElementById("options-container");
+
+    // Set the question text
+    questionContainer.innerHTML = question[questionIndex].question;
+
+    // Clear previous options
+    optionsContainer.innerHTML = "";
+
+    // Display options
+    for (var i = 0; i < question[questionIndex].options.length; i++) {
+      var option = document.createElement("button");
+      option.innerHTML = question[questionIndex].options[i];
+      option.addEventListener("click", handleOptionClick);
+      optionsContainer.appendChild(option);
+    }
+  },
+
+// Event handler for option click
+function handleOptionClick(event) {
+    var selectedOption = event.target.innerHTML;
+    userAnswers.push(selectedOption);
+
+    // Move to the next question or show the final result
+    questionIndex++;
+    if (questionIndex < question.length) {
+      showQuestion(questionIndex);
+    } else {
+      displayUserAnswers();
+    }
+  }
+
+
+// Function to display the question
+function showQuestion(questionIndex) {
+  var questionArray = question[questionIndex];
+  var optionsContainer = document.getElementById("options-container");
+
+  // Set the question text
+  document.getElementById("question-text").innerHTML = questionArray.question;
+
+  // Clear previous options
+  optionsContainer.innerHTML = "";
+
+  // Display options as checkboxes for questions allowing multiple answers
+  if (questionArray.multiple) {
+    for (var i = 0; i < questionArray.options.length; i++) {
+      var option = document.createElement("input");
+      option.setAttribute("type", "checkbox");
+      option.value = questionArray.options[i];
+      option.id = `option-${i}`;
+      optionsContainer.appendChild(option);
+
+      var label = document.createElement("label");
+      label.innerHTML = questionArray.options[i];
+      label.setAttribute("for", `option-${i}`);
+      optionsContainer.appendChild(label);
+
+      optionsContainer.appendChild(document.createElement("br"));
+    }
+  } else {
+    // Display options as buttons for single answer questions
+    for (var i = 0; i < questionArray.options.length; i++) {
+      var option = document.createElement("button");
+      option.innerHTML = questionArray.options[i];
+      option.addEventListener("click", handleOptionClick);
+      optionsContainer.appendChild(option);
+      optionsContainer.appendChild(document.createElement("br"));
+    }
+  }
+
+  // Remove any existing Next button
+  var existingNextButton = document.getElementById("next-button");
+  if (existingNextButton) {
+    existingNextButton.remove();
+  }
+
+  // Add Next button
+  var nextButton = document.createElement("button");
+  nextButton.id = "next-button";
+  nextButton.innerHTML = "Next";
+  nextButton.addEventListener("click", handleNextClick);
+  document.getElementById("quiz-container").appendChild(nextButton);
+}
+
+// Event handler for option click
+function handleOptionClick(event) {
+  var selectedOption = event.target.innerHTML;
+
+  // If it's a multiple-choice question, store the selected options
+  if (question[currentQuestion].multiple) {
+    // Check if the option is already selected, if so, remove it
+    var index = userAnswers.indexOf(selectedOption);
+    if (index !== -1) {
+      userAnswers.splice(index, 1);
+    } else {
+      userAnswers.push(selectedOption);
+    }
+  } else {
+    // For single-choice questions, store the selected option
+    userAnswers[currentQuestion] = selectedOption;
+  }
+
+  // Move to the next question or show the final result
+  currentQuestion++;
+  if (currentQuestion < question.length) {
+    showQuestion(currentQuestion);
+  } else {
+    displayUserAnswers();
+  }
+}
+
+// Function to display user answers
 function displayUserAnswers() {
   var resultContainer = document.getElementById("result-container");
   resultContainer.innerHTML = "User's answers: " + userAnswers.join(", ");
