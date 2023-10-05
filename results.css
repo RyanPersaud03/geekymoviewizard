@@ -1,8 +1,23 @@
+body {
+  background-color: #a7ffeb;
+}
 .topmovies {
   background-color: #ff5252;
   color: #fff;
   text-align: center;
   padding: 10px;
+}
+.navbar-link {
+  background-color: #ff5252;
+  color: #fff;
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 5px;
+  margin-right: 10px;
+}
+.navbar-link:hover {
+  background-color: #ff4d38;
 }
 
 nav {
@@ -45,6 +60,8 @@ nav {
 .container {
   margin-top: 20px;
   color: #ff5252;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .card {
@@ -53,11 +70,11 @@ nav {
   border-radius: 8px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   padding: 20px;
+  background-color: #fff;
+  flex: 1;
+  margin-right: 10px;
 }
 
-@media (min-width: 768px) {
-  .card {
-    width: calc(50% - 10px);
-    float: left;
-  }
+.card:last-child {
+  margin-right: 0;
 }

@@ -8,7 +8,9 @@ li {
   padding: 0;
   list-style: none;
 }
-
+body {
+  background-color: #a7ffeb;
+}
 header {
   background-color: #ff5252;
   color: #fff;
