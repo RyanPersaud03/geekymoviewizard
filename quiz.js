@@ -1,43 +1,12 @@
 // variables & objects
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a";
 var url = `https://api.themoviedb.org/3/discover/movie?api_key=${apiKey}&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16`;
-
-// Function to display the question
-function showQuestion(questionIndex) {
-  var questionArray = question[questionIndex];
-  var optionsContainer = document.getElementById("options-container");
-
-  // Set the question text
-  document.getElementById("question-text").innerHTML = questionArray.question;
-
-  // Clear previous options
-  optionsContainer.innerHTML = "";
-
-  // Display options
-  for (var i = 0; i < questionArray.options.length; i++) {
-    var option = document.createElement("button");
-    option.innerHTML = questionArray.options[i];
-    option.addEventListener("click", handleOptionClick);
-    optionsContainer.appendChild(option);
-  }
-}
-
-// Event handler for option click
-function handleOptionClick(event) {
-  var selectedOption = event.target.innerHTML;
-  userAnswers.push(selectedOption);
-
-  // Move to the next question or show the final result
-  currentQuestion++;
-  if (currentQuestion < question.length) {
-    showQuestion(currentQuestion);
-  } else {
-    displayUserAnswers();
-  }
-}
+var userAnswers = [];
+var currentQuestion = 0;
+var selectedOption = null;
 
 // Wizard Generator Questions.
-let question = [
+let questions = [
   {
     question: "What are your favorite movie genres?",
     options: [
@@ -119,50 +88,104 @@ let question = [
     question: 'Based on below rating system, describe your mood today.',
     options: ['😀', '😐', '😟']
   },
+];
 
-  // Function to display the question
-  function showQuestion(questionIndex) {
-    var questionContainer = document.getElementById("question-container");
-    var optionsContainer = document.getElementById("options-container");
+// Add Next button
+var nextButton = document.createElement("button");
+nextButton.id = "next-button";
+nextButton.innerHTML = "Next";
+nextButton.addEventListener("click", function () {
+  handleNextClick(currentQuestion);
+});
+document.getElementById("quiz-container").appendChild(nextButton);
+// Call showQuestion for the first question
+showQuestion(currentQuestion);
 
-    // Set the question text
-    questionContainer.innerHTML = question[questionIndex].question;
+// Function to display the question
+function showQuestion(currentQuestion) {
+  var questionContainer = document.getElementById("question-text");
+  var optionsContainer = document.getElementById("options-container");
+  optionsContainer.innerHTML = ""; // Clear previous options
 
-    // Clear previous options
-    optionsContainer.innerHTML = "";
+  // Set the question text
+  questionContainer.innerText = questions[currentQuestion].question;
 
-    // Display options
-    for (var i = 0; i < question[questionIndex].options.length; i++) {
-      var option = document.createElement("button");
-      option.innerHTML = question[questionIndex].options[i];
-      option.addEventListener("click", handleOptionClick);
-      optionsContainer.appendChild(option);
-    }
-  },
+  // Display options
+  var options = questions[currentQuestion].options;
+  for (var i = 0; i < options.length; i++) {
+    var optionElement;
 
-// Event handler for option click
-function handleOptionClick(event) {
-    var selectedOption = event.target.innerHTML;
-    userAnswers.push(selectedOption);
-
-    // Move to the next question or show the final result
-    questionIndex++;
-    if (questionIndex < question.length) {
-      showQuestion(questionIndex);
+    if (questions[currentQuestion].multiple) {
+      // Display as checkboxes for multiple-choice questions
+      optionElement = document.createElement("input");
+      optionElement.type = "checkbox";
+      optionElement.value = options[i];
+      optionElement.id = "option-" + i;
     } else {
-      displayUserAnswers();
+      // Display as radio buttons for single-choice questions
+      optionElement = document.createElement("input");
+      optionElement.type = "radio";
+      optionElement.value = options[i];
+      optionElement.name = "option";
+      optionElement.id = "option-" + i;
+    }
+    var labelElement = document.createElement("label");
+    labelElement.innerHTML = options[i];
+    labelElement.setAttribute("for", "option-" + i);
+
+    optionsContainer.appendChild(optionElement);
+    optionsContainer.appendChild(labelElement);
+    optionsContainer.appendChild(document.createElement("br"));
+  }
+}
+
+// Event handler for next click
+function handleNextClick() {
+  var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+  selectedOption = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+  userAnswers[currentQuestion] = selectedOption;
+
+  if (questions[currentQuestion].multiple) {
+    // Handle multiple-choice questions
+    var selectedCheckboxes = document.querySelectorAll('input[type="checkbox"]:checked');
+    selectedOption = Array.from(selectedCheckboxes).map(checkbox => checkbox.value);
+    userAnswers[currentQuestion] = selectedOption;
+  } else {
+    // Handle single-choice questions
+    var selectedRadio = document.querySelector('input[type="radio"]:checked');
+    if (selectedRadio) {
+      selectedOption = selectedRadio.value;
+      userAnswers[currentQuestion] = selectedOption;
     }
   }
+  currentQuestion++;
+  //Check if there are more questions
+  if (currentQuestion < questions.length) {
+    showQuestion(currentQuestion);
+  } else {
+    displayUserAnswers();
+  }
+}
 
-// Initialize by showing the first question
-window.onload = function () {
-  showQuestion(currentQuestion);
-};
+// If it's a multiple-choice question, store the selected options
+if (questions[currentQuestion].multiple) {
+  // Check if the option is already selected, if so, remove it
+  var index = userAnswers.indexOf(selectedOption);
+  if (index !== -1) {
+    userAnswers.splice(index, 1);
+  } else {
+    userAnswers.push(selectedOption);
+  }
+} else {
+  // For single-choice questions, store the selected option
+  userAnswers[currentQuestion] = selectedOption;
+}
+
+//Function to display user answers
 function displayUserAnswers() {
   var resultContainer = document.getElementById("result-container");
   resultContainer.innerHTML = "User's answers: " + userAnswers.join(", ");
-};
+}
 function redirectToResultsPage() {
-  window.location.href = "results.html";  // direct user to results page
-};
-
+  window.location.href = "results.html";
+}
