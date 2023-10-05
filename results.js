@@ -1,6 +1,7 @@
 var tokenAuth = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDY1MGQ2Y2JmOWMyOGIwMjBlNmQxZTNhMGJmOGIwYSIsInN1YiI6IjY1MTYwNmJmMDQ5OWYyMDBjNDRmMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PqZrJd3GjkOHwgflqWPOSyMjZZck7e0HJ-B8cn_3rP4"
-var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
-var baseUrl = "https://api.themoviedb.org/3/"; //TMDB url
+//var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
+var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"; //TMDB API key
+var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
 // var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
 
 var genreIds = {
@@ -25,7 +26,7 @@ var genreIds = {
     "Western": 37,
 }
 
-fetch(url).then(function (res) {
+fetch(baseUrl + apiKey).then(function (res) {
     return res.json()
 }).then(function (data) {
     console.log(data)
@@ -60,6 +61,7 @@ fetch(url).then(function (res) {
 
 });
 
+// Display Genre
 function getMovies() {
     const selectedGenreId = document.getElementById("genre").value;
     const url = `${baseUrl}/discover/movie?api_key=${apiKey}&with_genres=${selectedGenreId}`;
@@ -71,11 +73,11 @@ function getMovies() {
         })
         .catch((error) => console.error("Error fetching movies:", error));
 }
-
+// Display Movies
 function displayMovies(movies) {
     const movieList = document.getElementById("movieList");
     movieList.innerHTML = "";
-
+// Display Mvoie
     movies.forEach((movie) => {
         const li = document.createElement("li");
         li.textContent = movie.title;
@@ -84,16 +86,16 @@ function displayMovies(movies) {
 }
 
 const options = {
-    method: 'GET'
+    method: 'GET',
     rapidUrl: "https://streaming-availability.p.rapidapi.com/countries",
     headers: {
         'X-RapidAPI-Key': 'f0be8384dfmshbd2f55147d628d0p15ff65jsnef1aa7c4adcf',
         'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
     }
 };
-try {
-    const response = await axios.request(options);
-    console.log(response.data);
-} catch (error) {
-    console.error(error);
-}
+// try {
+//     const response = await axios.request(options);
+//     console.log(response.data);
+// } catch (error) {
+//     console.error(error);
+// }
