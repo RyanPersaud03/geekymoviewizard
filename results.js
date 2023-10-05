@@ -26,6 +26,11 @@ var genreIds = {
     "Western": 37,
 }
 
+mobiscroll.select('#multiple-select', {
+    inputElement: document.getElementById("genreDropdownContent"),
+    touchUi: false
+});
+
 fetch(baseUrl + apiKey).then(function (res) {
     return res.json()
 }).then(function (data) {
@@ -77,7 +82,7 @@ function getMovies() {
 function displayMovies(movies) {
     const movieList = document.getElementById("movieList");
     movieList.innerHTML = "";
-// Display Mvoie
+    // Display Mvoie
     movies.forEach((movie) => {
         const li = document.createElement("li");
         li.textContent = movie.title;
