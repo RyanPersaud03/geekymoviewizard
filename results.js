@@ -30,7 +30,7 @@ var genreIds = {
 fetch(baseUrl + apiKey).then(function (res) {
     return res.json()
 }).then(function (data) {
-    console.log(data)
+    console.log(data);
 
     // Movie Genre
     for (var i = 0; i < data.results.length; i++) {
@@ -71,17 +71,10 @@ function toggleGenreSelection(genre) {
     } else {
         selectedGenres.add(genre);
     }
-}
 
-// Update the genre list when a genre is clicked
-const genreDropdownContent = document.getElementById("genreDropdownContent");
-genreDropdownContent.addEventListener("click", function (event) {
-    if (event.target && event.target.nodeName == "A") {
-        const genre = event.target.getAttribute("data-genre");
-        toggleGenreSelection(genre);
-        updateSelectedGenresDisplay();
-    }
-});
+    // Update the display of selected genres
+    updateSelectedGenresDisplay();
+}
 
 // Update the display of selected genres
 function updateSelectedGenresDisplay() {
