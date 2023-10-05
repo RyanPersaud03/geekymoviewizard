@@ -1,5 +1,6 @@
+var tokenAuth = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDY1MGQ2Y2JmOWMyOGIwMjBlNmQxZTNhMGJmOGIwYSIsInN1YiI6IjY1MTYwNmJmMDQ5OWYyMDBjNDRmMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PqZrJd3GjkOHwgflqWPOSyMjZZck7e0HJ-B8cn_3rP4"
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
-var baseUrl = "https://api.themoviedb.org/3/"
+var baseUrl = "https://api.themoviedb.org/3/"; //TMDB url
 // var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
 
 var genreIds = {
@@ -80,4 +81,19 @@ function displayMovies(movies) {
         li.textContent = movie.title;
         movieList.appendChild(li);
     });
+}
+
+const options = {
+    method: 'GET'
+    rapidUrl: "https://streaming-availability.p.rapidapi.com/countries",
+    headers: {
+        'X-RapidAPI-Key': 'f0be8384dfmshbd2f55147d628d0p15ff65jsnef1aa7c4adcf',
+        'X-RapidAPI-Host': 'streaming-availability.p.rapidapi.com'
+    }
+};
+try {
+    const response = await axios.request(options);
+    console.log(response.data);
+} catch (error) {
+    console.error(error);
 }
