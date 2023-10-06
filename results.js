@@ -75,7 +75,7 @@ function genrematch(){
 }
 
 // Initialize a Set to store selected genres
-const selectedGenres = new Set();
+
 
 // Function to toggle the selection of a genre
 function toggleGenreSelection(genre) {
@@ -97,8 +97,9 @@ function toggleGenreSelection(genre) {
 // Update the display of selected genres
 function updateSelectedGenresDisplay() {
     const genreDisplay = document.getElementById("genre");
-    genreDisplay.textContent = Array.from(selectedGenres).join(", ");
     genreDisplay.innerHTML = ""
+    genreDisplay.textContent = Array.from(selectedGenres).join(", ");
+    
     selectedGenres.forEach(genre =>{
         const genreElement = document.createElement("div");
     genreElement.textContent = genre;
@@ -106,7 +107,7 @@ function updateSelectedGenresDisplay() {
 });}
   const genreDisplay = document.getElementById("selected-genres");
   genreDisplay.textContent = Array.from(selectedGenres).join(", ");
-}
+
 
 // Function to update listing card based on the selected genres
 function updateListingCard() {
