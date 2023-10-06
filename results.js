@@ -62,6 +62,12 @@ fetch(baseUrl + apiKey).then(function (res) {
 
 });
 
+function genrematch(){
+    if (selectedGenres = genreIds[0]){
+        var displaygenre = document.getElementById("genre")
+        displaygenre.innerHTML = Array.from(genreIds).join(",")
+    }
+}
 
 
 // Function to toggle the selection of a genre
@@ -80,7 +86,12 @@ function toggleGenreSelection(genre) {
 function updateSelectedGenresDisplay() {
     const genreDisplay = document.getElementById("genre");
     genreDisplay.textContent = Array.from(selectedGenres).join(", ");
-}
+    genreDisplay.innerHTML = ""
+    selectedGenres.forEach(genre =>{
+        const genreElement = document.createElement("div");
+    genreElement.textContent = genre;
+    genreDisplay.appendChild(genreElement);
+});}
 
 const options = {
     method: 'GET',
