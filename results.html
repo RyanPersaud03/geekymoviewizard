@@ -6,11 +6,12 @@
     <link rel="stylesheet" href="results.css" />
     <script src="results.js"></script>
     <title>Top Movies</title>
+  </head>
+  <body>
     <div class="topmovies">
       <h1>Geeky Movie Wizard Top Movies</h1>
     </div>
-  </head>
-  <body>
+
     <nav>
       <nav class="navbar">
         <div class="container">
@@ -20,25 +21,215 @@
       <div class="dropdown">
         <button class="dropbtn" id="genreDropdownBtn">Genres</button>
         <div class="dropdown-content" id="genreDropdownContent">
-          <a href="#" data-genre="Action">Action</a>
-          <a href="#" data-genre="Adventure">Adventure</a>
-          <a href="#" data-genre="Animation">Animation</a>
-          <a href="#" data-genre="Comedy">Comedy</a>
-          <a href="#" data-genre="Crime">Crime</a>
-          <a href="#" data-genre="Documentary">Documentary</a>
-          <a href="#" data-genre="Drama">Drama</a>
-          <a href="#" data-genre="Family">Family</a>
-          <a href="#" data-genre="Fantasy">Fantasy</a>
-          <a href="#" data-genre="History">History</a>
-          <a href="#" data-genre="Horror">Horror</a>
-          <a href="#" data-genre="Music">Music</a>
-          <a href="#" data-genre="Mystery">Mystery</a>
-          <a href="#" data-genre="Romance">Romance</a>
-          <a href="#" data-genre="Sci-Fi">Sci-Fi</a>
-          <a href="#" data-genre="TV-Movie">TV-Movie</a>
-          <a href="#" data-genre="Thriller">Thriller</a>
-          <a href="#" data-genre="War">War</a>
-          <a href="#" data-genre="Western">Western</a>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Action"
+                id="genre-action"
+                onchange="toggleGenreSelection('Action')"
+              />
+              Action
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Adventure"
+                id="genre-adventure"
+                onchange="toggleGenreSelection('Adventure')"
+              />
+              Adventure
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Animation"
+                id="genre-animation"
+                onchange="toggleGenreSelection('Animation')"
+              />
+              Animation
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Comedy"
+                id="genre-comedy"
+                onchange="toggleGenreSelection('Comedy')"
+              />
+              Comedy
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Crime"
+                id="genre-crime"
+                onchange="toggleGenreSelection('Crime')"
+              />
+              Crime
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Documentary"
+                id="genre-documentary"
+                onchange="toggleGenreSelection('Documentary')"
+              />
+              Documentary
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Drama"
+                id="genre-drama"
+                onchange="toggleGenreSelection('Drama')"
+              />
+              Drama
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Family"
+                id="genre-family"
+                onchange="toggleGenreSelection('Family')"
+              />
+              Family
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Fantasy"
+                id="genre-fantasy"
+                onchange="toggleGenreSelection('Fantasy')"
+              />
+              Fantasy
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="History"
+                id="genre-history"
+                onchange="toggleGenreSelection('History')"
+              />
+              History
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Horror"
+                id="genre-horror"
+                onchange="toggleGenreSelection('Horror')"
+              />
+              Horror
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Music"
+                id="genre-music"
+                onchange="toggleGenreSelection('Music')"
+              />
+              Music
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Mystery"
+                id="genre-mystery"
+                onchange="toggleGenreSelection('Mystery')"
+              />
+              Mystery
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Romance"
+                id="genre-romance"
+                onchange="toggleGenreSelection('Romance')"
+              />
+              Romance
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Sci-Fi"
+                id="genre-scifi"
+                onchange="toggleGenreSelection('Sci-Fi')"
+              />
+              Sci-Fi
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="TV-Movie"
+                id="genre-tvmovie"
+                onchange="toggleGenreSelection('TV-Movie')"
+              />
+              TV-Movie
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Thriller"
+                id="genre-thriller"
+                onchange="toggleGenreSelection('Thriller')"
+              />
+              Thriller
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="War"
+                id="genre-war"
+                onchange="toggleGenreSelection('War')"
+              />
+              War
+            </label>
+          </div>
+          <div class="genre-checkboxes">
+            <label>
+              <input
+                type="checkbox"
+                value="Western"
+                id="genre-western"
+                onchange="toggleGenreSelection('Western')"
+              />
+              Western
+            </label>
+          </div>
         </div>
       </div>
     </nav>
