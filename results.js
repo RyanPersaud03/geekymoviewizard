@@ -67,8 +67,15 @@ fetch(baseUrl + apiKey)
     }
   });
 
+function genrematch(){
+    if (selectedGenres = genreIds[0]){
+        var displaygenre = document.getElementById("genre")
+        displaygenre.innerHTML = Array.from(genreIds).join(",")
+    }
+}
+
 // Initialize a Set to store selected genres
-const selectedGenres = new Set();
+
 
 // Function to toggle the selection of a genre
 function toggleGenreSelection(genre) {
@@ -89,9 +96,18 @@ function toggleGenreSelection(genre) {
 
 // Update the display of selected genres
 function updateSelectedGenresDisplay() {
+    const genreDisplay = document.getElementById("genre");
+    genreDisplay.innerHTML = ""
+    genreDisplay.textContent = Array.from(selectedGenres).join(", ");
+    
+    selectedGenres.forEach(genre =>{
+        const genreElement = document.createElement("div");
+    genreElement.textContent = genre;
+    genreDisplay.appendChild(genreElement);
+});}
   const genreDisplay = document.getElementById("selected-genres");
   genreDisplay.textContent = Array.from(selectedGenres).join(", ");
-}
+
 
 // Function to update listing card based on the selected genres
 function updateListingCard() {
