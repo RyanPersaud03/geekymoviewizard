@@ -1,12 +1,12 @@
 var tokenAuth =
-    "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDY1MGQ2Y2JmOWMyOGIwMjBlNmQxZTNhMGJmOGIwYSIsInN1YiI6IjY1MTYwNmJmMDQ5OWYyMDBjNDRmMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PqZrJd3GjkOHwgflqWPOSyMjZZck7e0HJ-B8cn_3rP4";
-//var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
-var apiKey =
-    "10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"; //TMDB API key
+  "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDY1MGQ2Y2JmOWMyOGIwMjBlNmQxZTNhMGJmOGIwYSIsInN1YiI6IjY1MTYwNmJmMDQ5OWYyMDBjNDRmMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PqZrJd3GjkOHwgflqWPOSyMjZZck7e0HJ-B8cn_3rP4";
+var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
+//var apiKey =
+ // "10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"; //TMDB API key
 var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
 // var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
 var selectedGenres = new Set(); // Set to store selected genres
-
+let movieTitles = [];
 var genreIds = {
     Action: 28,
     Adventure: 12,
@@ -29,23 +29,37 @@ var genreIds = {
     Western: 37,
 };
 
-// Movie Title
-for (var i = 0; i < data.results.length; i++) {
-    var movieTitles = data.results[i].original_title;
-    console.log(`Movie Title` + (i + 1) + `:`, movieTitles);
-}
-// Movie Rating
-for (var i = 0; i < data.results.length; i++) {
-    var movieRatings = data.results[i].vote_average;
-    console.log(`Movie Rating` + (i + 1) + `:`, movieRatings);
-}
-// Movie Rating
-for (var i = 0; i < data.results.length; i++) {
-    var movieIds = data.results[i].id;
-    console.log(`Movie Ids` + (i + 1) + `:`, movieIds);
-    fetch(
-        `https://api.themoviedb.org/3/movie/${movieIds}/credits?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a`
-    )
+/*fetch(baseUrl + apiKey)
+  .then(function (res) {
+    return res.json();
+  })
+  .then(function (data) {
+    //console.log(data);
+
+    // Movie Genre
+    for (var i = 0; i < data.results.length; i++) {
+      var genreIds = data.results[i].genre_ids;
+      console.log(`Movie Genre` + (i + 1) + `:`, genreIds);
+    }
+    // Movie Title
+    for (var i = 0; i < data.results.length; i++) {
+      // movieTitles = data.results[i].original_title;
+      movieTitles.push(data.results[i].original_title)
+      
+    }
+    // Movie Rating
+    for (var i = 0; i < data.results.length; i++) {
+      var movieRatings = data.results[i].vote_average;
+      console.log(`Movie Rating` + (i + 1) + `:`, movieRatings);
+      console.log("run this first")
+    }
+    // Movie Rating
+    for (var i = 0; i < data.results.length; i++) {
+      var movieIds = data.results[i].id;
+      console.log(`Movie Ids` + (i + 1) + `:`, movieIds);
+      fetch(
+        `https://api.themoviedb.org/3/movie/${0}/credits?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a`
+      )
         .then(function (res) {
             return res.json();
         })
@@ -59,7 +73,7 @@ function genrematch() {
         var displaygenre = document.getElementById("genre")
         displaygenre.innerHTML = Array.from(genreIds).join(",")
     }
-}
+}*/
 
 // Initialize a Set to store selected genres
 
@@ -81,6 +95,7 @@ function toggleGenreSelection(genre) {
     updateListingCard();
 }
 
+
 // Update the display of selected genres
 function updateSelectedGenresDisplay() {
     const genreDisplay = document.getElementById("genre");
@@ -89,60 +104,70 @@ function updateSelectedGenresDisplay() {
 
     selectedGenres.forEach(genre => {
         const genreElement = document.createElement("div");
-        genreElement.textContent = genre;
-        genreDisplay.appendChild(genreElement);
-    });
+    genreElement.textContent = genre;
+    genreDisplay.appendChild(genreElement);
+});}
+  //const genreDisplay = document.getElementById("selected-genres");
+  // genreDisplay.textContent = Array.from(selectedGenres).join(", ");
+
+// Update the display listing with Movie titles
+function updateListingCard(){
+  for(const genre of selectedGenres){
+    getMovieList(genre)
+  }
+  const displayTitle = document.getElementById("movietitle");
+  console.log(displayTitle)
+  const movieNameTile = document.createElement("p");
+  movieNameTile.id="movieName"
+  //movieNameTile.setAttribute("id", "movieName")
+  displayTitle.appendChild(movieNameTile);
+  console.log(movieNameTile)
+  const movieName = document.getElementById("movieName");
+  console.log(movieName)
+  document.getElementById("movieName").innerText = movieTitles
+  
+  //console.log(movieNames)
+
+  //movieName.textContent = movieTitles
+  //movieName.textContent = movieTitles
+  return
 }
 
-fetch(baseUrl + apiKey)
-    .then(function (res) {
-        return res.json();
-    })
-    .then(function (data) {
-        console.log(data);
+  // for (var i = 0; i < data.results.length; i++) {
+  //   var movieTitles = data.results[i].original_title;
+  //   console.log(`Movie Title` + (i + 1) + `:`, movieTitles);
+  // }
 
-        // Movie Genre
-        for (var i = 0; i < data.results.length; i++) {
-            var genreIds = data.results[i].genre_ids;
-            console.log(`Movie Genre` + (i + 1) + `:`, genreIds);
-        }
-
-        //Display movie titles
-        displayMovieTitles(data);
-
-
-        //Function to display movie titles
-        function displayMovieTitles(data) {
-            const movieTitleDisplay = document.getElementById("movieTitle");
-
-            // Clear previous content
-            movieTitleDisplay.innerHTML = "";
-
-            // Display movie titles
-            data.results.forEach((movie, index) => {
-                const movieTitleElement = document.createElement("div");
-                movieTitleElement.textContent = `Movie Title ${index + 1}: ${movie.original_title}`;
-                movieTitleDisplay.appendChild(movieTitleElement);
-            });
-        }
-    });
-
-fetch(baseUrl + apiKey).then(function (res) {
+function getMovieList(genre){
+  filter = "&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=" + genreIds[genre] 
+  fetch(baseUrl + apiKey + filter)
+  .then(function (res) {
     return res.json();
-}).then(function (data) {
-    console.log(data);
+  })
+  .then(function (data) {
+    // Movie Title
+    console.log(data.results)
+    for (var i = 0; i < data.results.length; i++) {
+      // movieTitles = data.results[i].original_title;
+      movieTitles.push(data.results[i].original_title)
+      
+    }
+  });
+}
 
-    // Display movie titles
-    displayMovieTitles(data);
 
-    const options = {
-        method: "GET",
-        rapidUrl: "https://streaming-availability.p.rapidapi.com/countries",
-        headers: {
-            "X-RapidAPI-Key": "f0be8384dfmshbd2f55147d628d0p15ff65jsnef1aa7c4adcf",
-            "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
-        },
-    };
+// Function to update listing card based on the selected genres
+// function updateListingCard() {
+//   console.log("Selected Genres:", Array.from(selectedGenres));
+// }
+const options = {
+  method: "GET",
+  rapidUrl: "https://streaming-availability.p.rapidapi.com/countries",
+  headers: {
+    "X-RapidAPI-Key": "f0be8384dfmshbd2f55147d628d0p15ff65jsnef1aa7c4adcf",
+    "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
+  },
+};
 // try {
 //     const response = await axios.request(options);
 //     console.log(response.data);
