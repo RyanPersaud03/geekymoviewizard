@@ -2,7 +2,7 @@ var tokenAuth =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDY1MGQ2Y2JmOWMyOGIwMjBlNmQxZTNhMGJmOGIwYSIsInN1YiI6IjY1MTYwNmJmMDQ5OWYyMDBjNDRmMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PqZrJd3GjkOHwgflqWPOSyMjZZck7e0HJ-B8cn_3rP4";
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
 //var apiKey =
- // "10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"; //TMDB API key
+// "10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"; //TMDB API key
 var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
 // var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
 var selectedGenres = new Set(); // Set to store selected genres
@@ -99,61 +99,66 @@ function toggleGenreSelection(genre) {
 
 // Update the display of selected genres
 function updateSelectedGenresDisplay() {
-    const genreDisplay = document.getElementById("genre");
-    genreDisplay.innerHTML = ""
-    genreDisplay.textContent = Array.from(selectedGenres).join(", ");
+  const genreDisplay = document.getElementById("genre");
+  genreDisplay.innerHTML = ""
+  genreDisplay.textContent = Array.from(selectedGenres).join(", ");
 
-    selectedGenres.forEach(genre =>{
-        const genreElement = document.createElement("div");
+  selectedGenres.forEach(genre => {
+    const genreElement = document.createElement("div");
     genreElement.textContent = genre;
     genreDisplay.appendChild(genreElement);
-});}
-  //const genreDisplay = document.getElementById("selected-genres");
-  // genreDisplay.textContent = Array.from(selectedGenres).join(", ");
+  });
+}
+//const genreDisplay = document.getElementById("selected-genres");
+// genreDisplay.textContent = Array.from(selectedGenres).join(", ");
 
 // Update the display listing with Movie titles
-function updateListingCard(){
-  for(const genre of selectedGenres){
+function updateListingCard() {
+  const displayTitle = document.getElementById("movietitle");
+  displayTitle.innerHTML = ""; //clear previous content
+  for (const genre of selectedGenres) {
     getMovieList(genre)
   }
-  const displayTitle = document.getElementById("movietitle");
+
   console.log(displayTitle)
   const movieNameTile = document.createElement("p");
-  movieNameTile.id="movieName"
+  movieNameTile.id = "movieName"
   //movieNameTile.setAttribute("id", "movieName")
   displayTitle.appendChild(movieNameTile);
   console.log(movieNameTile)
   const movieName = document.getElementById("movieName");
   console.log(movieName)
-  document.getElementById("movieName").innerText = movieTitles
-  
-  //console.log(movieNames)
-
-  //movieName.textContent = movieTitles
-  //movieName.textContent = movieTitles
-  return
+  movieName.textContent = movieTitles.join(",");
 }
 
-  // for (var i = 0; i < data.results.length; i++) {
-  //   var movieTitles = data.results[i].original_title;
-  //   console.log(`Movie Title` + (i + 1) + `:`, movieTitles);
-  // }
+//console.log(movieNames)
 
-function getMovieList(genre){
-  filter = "&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=" + genreIds[genre] 
+//movieName.textContent = movieTitles
+//movieName.textContent = movieTitles
+
+// for (var i = 0; i < data.results.length; i++) {
+//   var movieTitles = data.results[i].original_title;
+//   console.log(`Movie Title` + (i + 1) + `:`, movieTitles);
+// }
+
+//Update function to fetch movie titles for each genre and store in movieTitles array
+function getMovieList(genre) {
+  const filter = "&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=" +
+    genreIds[genre];
+
   fetch(baseUrl + apiKey + filter)
-  .then(function (res) {
-    return res.json();
-  })
-  .then(function (data) {
-    // Movie Title
-    console.log(data.results)
-    for (var i = 0; i < data.results.length; i++) {
-      // movieTitles = data.results[i].original_title;
-      movieTitles.push(data.results[i].original_title)
-      
-    }
-  });
+    .then(function (res) {
+      return res.json();
+    })
+    .then(function (data) {
+      // Movie Title
+      console.log(data.results)
+      for (var i = 0; i < data.results.length; i++) {
+        // movieTitles = data.results[i].original_title;
+        movieTitles.push(data.results[i].original_title);
+      }
+      updateListingCard(); // Update the listing card after fetching movie titles
+    });
 }
 
 
