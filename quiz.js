@@ -160,12 +160,6 @@ function handleNextClick() {
     showQuestion(currentQuestion);
   } else {
     displayUserAnswers();
-  }
-  //Check if there are more questions
-  if (currentQuestion < questions.length) {
-    showQuestion(currentQuestion);
-  } else {
-    //Redirect to results.html when it's the last question
     redirectToResultsPage();
   }
 }
@@ -183,7 +177,18 @@ if (questions[currentQuestion].multiple) {
   // For single-choice questions, store the selected option
   userAnswers[currentQuestion] = selectedOption;
 }
+
+// Function to display user answers
+function displayUserAnswers() {
+  // Access the result container
+  const resultContainer = document.getElementById("result-container");
+
+  // Display the user's answers
+  resultContainer.innerHTML = "<h2>User Answers:</h2><pre>" + JSON.stringify(userAnswers, null, 2) + "</pre>";
+}
+
 //redirect page to results
 function redirectToResultsPage() {
+  localStorage.setItem('userAnswers', JSON.stringify(userAnswers)); //Store user answers in local storage
   window.location.href = "results.html";
 }
