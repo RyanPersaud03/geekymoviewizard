@@ -23,7 +23,7 @@ var genreIds = {
   Mystery: 9648,
   Romance: 10749,
   "Sci-Fi": 878,
-  "TV Movie": 10770,
+  "TV-Movie": 10770,
   Thriller: 53,
   War: 10752,
   Western: 37,
@@ -78,25 +78,6 @@ function genrematch(){
 
 // Initialize a Set to store selected genres
 
-
-// Function to toggle the selection of a genre
-function toggleGenreSelection(genre) {
-  const genreCheckbox = document.getElementById(`genre-${genre.toLowerCase()}`);
-
-  if (genreCheckbox.checked) {
-    selectedGenres.add(genre);
-  } else {
-    selectedGenres.delete(genre);
-  }
-
-  // Update the display of selected genres
-  updateSelectedGenresDisplay();
-
-  // Call a function to update the listing card based on the selected genres
-  updateListingCard();
-}
-
-
 // Update the display of selected genres
 function updateSelectedGenresDisplay() {
   const genreDisplay = document.getElementById("genre");
@@ -116,19 +97,17 @@ function updateSelectedGenresDisplay() {
 function updateListingCard() {
   const displayTitle = document.getElementById("movietitle");
   displayTitle.innerHTML = ""; //clear previous content
-  for (const genre of selectedGenres) {
-    getMovieList(genre)
-  }
+  // Remove duplicate movie titles
+  const uniqueMovieTitles = Array.from(new Set(movieTitles));// Remove duplicates
 
-  console.log(displayTitle)
-  const movieNameTile = document.createElement("p");
-  movieNameTile.id = "movieName"
-  //movieNameTile.setAttribute("id", "movieName")
-  displayTitle.appendChild(movieNameTile);
-  console.log(movieNameTile)
-  const movieName = document.getElementById("movieName");
-  console.log(movieName)
-  movieName.textContent = movieTitles.join(",");
+  if (uniqueMovieTitles.length > 0) {
+    const movieNameTile = document.createElement("p");
+    movieNameTile.id = "movieName";
+    displayTitle.appendChild(movieNameTile);
+
+    const movieName = document.getElementById("movieName");
+    movieName.textContent = uniqueMovieTitles.join(", ");
+  }
 }
 
 //console.log(movieNames)
@@ -151,16 +130,37 @@ function getMovieList(genre) {
       return res.json();
     })
     .then(function (data) {
-      // Movie Title
+      // Filter out duplicates and only add unique movie titles
       console.log(data.results)
-      for (var i = 0; i < data.results.length; i++) {
-        // movieTitles = data.results[i].original_title;
-        movieTitles.push(data.results[i].original_title);
-      }
+      //Collect titles for current genre
+      const uniqueMovieTitles = data.results.map(result => result.original_title);
+      movieTitles.push(...uniqueMovieTitles);
       updateListingCard(); // Update the listing card after fetching movie titles
+      // for (var i = 0; i < data.results.length; i++) {
+      //   // movieTitles = data.results[i].original_title;
+      //   movieTitles.push(data.results[i].original_title);
     });
 }
 
+// Function to toggle the selection of a genre
+function toggleGenreSelection(genre) {
+  const genreCheckbox = document.getElementById(`genre-${genre.toLowerCase()}`);
+
+  if (genreCheckbox.checked) {
+    selectedGenres.add(genre);
+  } else {
+    selectedGenres.delete(genre);
+  }
+
+  // Clear movie titles array and update listing card
+  movieTitles = [];
+  updateListingCard();
+
+  //Fetch movie titles for selected genres
+  for (const genre of selectedGenres) {
+    getMovieList(genre);
+  }
+}
 
 // Function to update listing card based on the selected genres
 // function updateListingCard() {
