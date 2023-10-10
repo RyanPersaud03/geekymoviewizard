@@ -5,7 +5,12 @@ var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
 let movieTitles = [];
 let genreIdsByTitle = {}; //Store genre information for each title
 
-let selectedGenres = new Set(); //Declare SelectedGenres as a global variable
+let selectedGenres = new Set(); //SelectedGenres is a global variable
+let includeForeign = true; // Assume default is to include foreign movies
+
+
+
+
 
 var genreIds = {
   Action: 28,
@@ -129,10 +134,39 @@ function updateListingCard() {
   }
 }
 
+// Function to toggle the selection of a genre
+function toggleGenreSelection(genre) {
+  const genreCheckbox = document.getElementById(`genre-${genre.toLowerCase()}`);
+
+  if (genreCheckbox.checked) {
+    selectedGenres.add(genre);
+  } else {
+    selectedGenres.delete(genre);
+  }
+
+  // Clear movie titles array and update listing card
+  movieTitles = [];
+  updateListingCard();
+
+  //Fetch movie titles for selected genres
+  const userAnswersString = localStorage.getItem('userAnswers');
+  if (userAnswersString) {
+    const userAnswers = JSON.parse(userAnswersString);
+    includeForeign = userAnswers[1] === 'yes'; // User's preference for foreign movies is stored at index 1
+  }
+  for (const genre of selectedGenres) {
+    getMovieList(genre);
+  }
+}
 //Update function to fetch movie titles for each genre and store in movieTitles array
 function getMovieList(genre) {
   const filter = "&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=" +
     genreIds[genre];
+
+  //Exclude foreign movies if the user does not want to see them
+  if (!includeForeign) {
+    filter += '&language=en-US&with_original_language=en';
+  }
 
   fetch(baseUrl + apiKey + filter)
     .then(function (res) {
@@ -153,6 +187,8 @@ function getMovieList(genre) {
       movieTitles.push(...uniqueMovieTitles);
       updateListingCard(); // Update the listing card after fetching movie titles
     });
+
+}
 }
 
 // Function to toggle the selection of a genre
@@ -173,3 +209,4 @@ function toggleGenreSelection(genre) {
   for (const genre of selectedGenres) {
     getMovieList(genre);
   }
+
