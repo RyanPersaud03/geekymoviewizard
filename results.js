@@ -4,6 +4,9 @@ var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
 var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
 let movieTitles = [];
 let genreIdsByTitle = {}; //Store genre information for each title
+
+let selectedGenres = new Set(); //Declare SelectedGenres as a global variable
+
 var genreIds = {
   Action: 28,
   Adventure: 12,
@@ -20,7 +23,7 @@ var genreIds = {
   Mystery: 9648,
   Romance: 10749,
   "Sci-Fi": 878,
-  "TV-Movie": 10770,
+  "TV Movie": 10770,
   Thriller: 53,
   War: 10752,
   Western: 37,
@@ -33,6 +36,17 @@ document.addEventListener("DOMContentLoaded", function () {
     const userAnswers = JSON.parse(userAnswersString);
 
     // Extract selected genres and actors from user answers
+
+    const selectedGenresFromUser = userAnswers[0];
+    // const selectedActors = userAnswers[3];
+
+    // Display selected genres and actors
+    updateSelectedGenresDisplay(selectedGenresFromUser);
+    // selectedActors(selectedActors);
+
+    // Fetch movies based on selected genres
+    getMovieList(selectedGenresFromUser);
+
     const selectedGenres = userAnswers[0];
     const selectedActors = userAnswers[3];
 
@@ -42,33 +56,48 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fetch movies based on selected genres
     fetchMovies(selectedGenres);
+
   }
 });
 
 // Update the display of selected genres
-function updateSelectedGenresDisplay() {
+function updateSelectedGenresDisplay(selectedGenres) {
   const genreDisplay = document.getElementById("genre");
-  genreDisplay.innerHTML = ""
+  genreDisplay.innerHTML = "";
   genreDisplay.textContent = Array.from(selectedGenres).join(", ");
 
   selectedGenres.forEach(genre => {
     const genreElement = document.createElement("div");
-    genreElement.textContent = genre;
+    genreElement.textContent = genre; //Display genre name instead of IDs
     genreDisplay.appendChild(genreElement);
   });
 }
 
 // Update the display listing with Movie titles
 function updateListingCard() {
+
+  const displayTitle = document.getElementById("movieTitle");
+  displayTitle.innerHTML = ""; //clear previous content
+
   const displayTitle = document.getElementById("movietitle");
   displayTitle.innerHTML = ""; // Clear previous content
+
   // Remove duplicate movie titles
   const uniqueMovieTitles = Array.from(new Set(movieTitles)); // Remove duplicates
 
 
 
+    const movieName = document.getElementById("movieName");
+    movieName.textContent = uniqueMovieTitles.join(", ");
+
     // Group movie titles by genre
     const moviesByGenre = {};
+
+
+
+    // Group movie titles by genre
+    const moviesByGenre = {};
+
 
     // Iterate through the movie titles and organize them by genre
     for (const title of movieTitles) {
@@ -144,19 +173,3 @@ function toggleGenreSelection(genre) {
   for (const genre of selectedGenres) {
     getMovieList(genre);
   }
-}
-
-const options = {
-  method: "GET",
-  rapidUrl: "https://streaming-availability.p.rapidapi.com/countries",
-  headers: {
-    "X-RapidAPI-Key": "f0be8384dfmshbd2f55147d628d0p15ff65jsnef1aa7c4adcf",
-    "X-RapidAPI-Host": "streaming-availability.p.rapidapi.com",
-  },
-};
-// try {
-//     const response = await axios.request(options);
-//     console.log(response.data);
-// } catch (error) {
-//     console.error(error);
-// }
