@@ -96,17 +96,20 @@ function updateSelectedGenresDisplay() {
 // Update the display listing with Movie titles
 function updateListingCard() {
   const displayTitle = document.getElementById("movietitle");
-  displayTitle.innerHTML = ""; //clear previous content
+  displayTitle.innerHTML = ""; // Clear previous content
   // Remove duplicate movie titles
-  const uniqueMovieTitles = Array.from(new Set(movieTitles));// Remove duplicates
+  const uniqueMovieTitles = Array.from(new Set(movieTitles)); // Remove duplicates
 
   if (uniqueMovieTitles.length > 0) {
-    const movieNameTile = document.createElement("p");
-    movieNameTile.id = "movieName";
-    displayTitle.appendChild(movieNameTile);
+    const movieNameList = document.createElement("ul"); // Create an unordered list
+    movieNameList.id = "movieNameList";
+    displayTitle.appendChild(movieNameList);
 
-    const movieName = document.getElementById("movieName");
-    movieName.textContent = uniqueMovieTitles.join(", ");
+    uniqueMovieTitles.forEach((title) => {
+      const movieNameItem = document.createElement("li"); // Create a list item for each title
+      movieNameItem.textContent = title;
+      movieNameList.appendChild(movieNameItem);
+    });
   }
 }
 
