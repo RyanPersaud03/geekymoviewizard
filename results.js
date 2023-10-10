@@ -4,8 +4,14 @@ var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
 var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
 let movieTitles = [];
 let genreIdsByTitle = {}; //Store genre information for each title
+
 let selectedGenres = new Set(); //SelectedGenres is a global variable
 let includeForeign = true; // Assume default is to include foreign movies
+
+
+
+
+
 var genreIds = {
   Action: 28,
   Adventure: 12,
@@ -35,6 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const userAnswers = JSON.parse(userAnswersString);
 
     // Extract selected genres and actors from user answers
+
     const selectedGenresFromUser = userAnswers[0];
     // const selectedActors = userAnswers[3];
 
@@ -44,6 +51,17 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fetch movies based on selected genres
     getMovieList(selectedGenresFromUser);
+
+    const selectedGenres = userAnswers[0];
+    const selectedActors = userAnswers[3];
+
+    // Display selected genres and actors
+    updateSelectedGenresDisplay(selectedGenres);
+    selectedActors(selectedActors);
+
+    // Fetch movies based on selected genres
+    fetchMovies(selectedGenres);
+
   }
 });
 
@@ -62,21 +80,29 @@ function updateSelectedGenresDisplay(selectedGenres) {
 
 // Update the display listing with Movie titles
 function updateListingCard() {
+
   const displayTitle = document.getElementById("movieTitle");
   displayTitle.innerHTML = ""; //clear previous content
-  // Remove duplicate movie titles
-  const uniqueMovieTitles = Array.from(new Set(movieTitles));// Remove duplicates
 
-  if (uniqueMovieTitles.length > 0) {
-    const movieNameTile = document.createElement("p");
-    movieNameTile.id = "movieName";
-    displayTitle.appendChild(movieNameTile);
+  const displayTitle = document.getElementById("movietitle");
+  displayTitle.innerHTML = ""; // Clear previous content
+
+  // Remove duplicate movie titles
+  const uniqueMovieTitles = Array.from(new Set(movieTitles)); // Remove duplicates
+
+
 
     const movieName = document.getElementById("movieName");
     movieName.textContent = uniqueMovieTitles.join(", ");
 
     // Group movie titles by genre
     const moviesByGenre = {};
+
+
+
+    // Group movie titles by genre
+    const moviesByGenre = {};
+
 
     // Iterate through the movie titles and organize them by genre
     for (const title of movieTitles) {
@@ -161,4 +187,26 @@ function getMovieList(genre) {
       movieTitles.push(...uniqueMovieTitles);
       updateListingCard(); // Update the listing card after fetching movie titles
     });
+
 }
+}
+
+// Function to toggle the selection of a genre
+function toggleGenreSelection(genre) {
+  const genreCheckbox = document.getElementById(`genre-${genre.toLowerCase()}`);
+
+  if (genreCheckbox.checked) {
+    selectedGenres.add(genre);
+  } else {
+    selectedGenres.delete(genre);
+  }
+
+  // Clear movie titles array and update listing card
+  movieTitles = [];
+  updateListingCard();
+
+  //Fetch movie titles for selected genres
+  for (const genre of selectedGenres) {
+    getMovieList(genre);
+  }
+
