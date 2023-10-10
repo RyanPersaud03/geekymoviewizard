@@ -160,6 +160,7 @@ function handleNextClick() {
     showQuestion(currentQuestion);
   } else {
     displayUserAnswers();
+    redirectToResultsPage();
   }
 }
 
@@ -177,11 +178,17 @@ if (questions[currentQuestion].multiple) {
   userAnswers[currentQuestion] = selectedOption;
 }
 
-//Function to display user answers
+// Function to display user answers
 function displayUserAnswers() {
-  var resultContainer = document.getElementById("result-container");
-  resultContainer.innerHTML = "User's answers: " + userAnswers.join(", ");
+  // Access the result container
+  const resultContainer = document.getElementById("result-container");
+
+  // Display the user's answers
+  resultContainer.innerHTML = "<h2>User Answers:</h2><pre>" + JSON.stringify(userAnswers, null, 2) + "</pre>";
 }
+
+//redirect page to results
 function redirectToResultsPage() {
+  localStorage.setItem('userAnswers', JSON.stringify(userAnswers)); //Store user answers in local storage
   window.location.href = "results.html";
 }
