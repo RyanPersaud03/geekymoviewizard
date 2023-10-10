@@ -5,7 +5,7 @@ Welcome to the Geeky Movie Wizard, your ultimate destination for discovering and
 We are a team of movie enthusiasts here to provide you with the latest movie recommendations and help you discover your next cinematic adventure in our audiences favourite movie genres.
 
 # Acceptance Criteria
-GIVEN I am taking a questionnaire about my favourite movie genres and actors/actresses
+GIVEN I am taking a questionnaire about my favourite movie genres
 WHEN I click the ‘Wizard Generator’
 THEN I am presented with questions asking about my preferences WHEN I answer all questions
 THEN I am provided movie recommendations
