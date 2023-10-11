@@ -1,7 +1,17 @@
 var tokenAuth =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDY1MGQ2Y2JmOWMyOGIwMjBlNmQxZTNhMGJmOGIwYSIsInN1YiI6IjY1MTYwNmJmMDQ5OWYyMDBjNDRmMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PqZrJd3GjkOHwgflqWPOSyMjZZck7e0HJ-B8cn_3rP4";
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
+
+//var apiKey =
+// "10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"; //TMDB API key
+let genreIdsByTitle = {}; //Store genre information for each title
 var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
+// var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
+var selectedGenres = new Set(); // Set to store selected genres
+let includeForeign = true; // Assume default is to include foreign movies
+
+var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
+
 let movieTitles = [];
 let genreIdsByTitle = {}; //Store genre information for each title
 
@@ -40,6 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (userAnswersString) {
     const userAnswers = JSON.parse(userAnswersString);
 
+
     // Extract selected genres and actors from user answers
 
     const selectedGenresFromUser = userAnswers[0];
@@ -53,15 +64,16 @@ document.addEventListener("DOMContentLoaded", function () {
     getMovieList(selectedGenresFromUser);
 
     const selectedGenres = userAnswers[0];
-    const selectedActors = userAnswers[3];
+    // const selectedActors = userAnswers[3];
 
     // Display selected genres and actors
     updateSelectedGenresDisplay(selectedGenres);
-    selectedActors(selectedActors);
+    // selectedActors(selectedActors);
 
     // Fetch movies based on selected genres
     fetchMovies(selectedGenres);
 
+    
   }
 });
 
@@ -77,6 +89,7 @@ function updateSelectedGenresDisplay(selectedGenres) {
     genreDisplay.appendChild(genreElement);
   });
 }
+
 
 // Update the display listing with Movie titles
 function updateListingCard() {
@@ -133,20 +146,6 @@ function updateListingCard() {
     }
   }
 }
-
-// Function to toggle the selection of a genre
-function toggleGenreSelection(genre) {
-  const genreCheckbox = document.getElementById(`genre-${genre.toLowerCase()}`);
-
-  if (genreCheckbox.checked) {
-    selectedGenres.add(genre);
-  } else {
-    selectedGenres.delete(genre);
-  }
-
-  // Clear movie titles array and update listing card
-  movieTitles = [];
-  updateListingCard();
 
   //Fetch movie titles for selected genres
   const userAnswersString = localStorage.getItem('userAnswers');
@@ -206,7 +205,11 @@ function toggleGenreSelection(genre) {
   updateListingCard();
 
   //Fetch movie titles for selected genres
+  const userAnswersString = localStorage.getItem('userAnswers');
+  if (userAnswersString) {
+    const userAnswers = JSON.parse(userAnswersString);
+    includeForeign = userAnswers[1] === 'yes'; // User's preference for foreign movies is stored at index 1
+  }
   for (const genre of selectedGenres) {
     getMovieList(genre);
   }
-
