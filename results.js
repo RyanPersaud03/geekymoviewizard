@@ -97,7 +97,7 @@ function updateListingCard() {
   for (const genre of selectedGenres) {
     getMovieList(genre);
   }
-}
+
 //Update function to fetch movie titles for each genre and store in movieTitles array
 function getMovieList(genre) {
   const filter = "&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=" +
