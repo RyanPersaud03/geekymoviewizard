@@ -37,7 +37,6 @@ document.addEventListener("DOMContentLoaded", function () {
     const userAnswers = JSON.parse(userAnswersString);
 
     // Extract selected genres and actors from user answers
-
     const selectedGenresFromUser = userAnswers[0];
 
     // Display selected genres and actors
@@ -45,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fetch movies based on selected genres
     getMovieList(selectedGenresFromUser);
-
     const selectedGenres = userAnswers[0];
 
     // Display selected genres and actors
@@ -53,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fetch movies based on selected genres
     getMovieList(selectedGenres);
-
   }
 });
 
@@ -75,9 +72,6 @@ function updateListingCard() {
   const displayTitle = document.getElementById("movieTitle");
   displayTitle.innerHTML = ""; //clear previous content
 
-  // // Group movie titles by genre
-  // const moviesByGenre = {};
-
   // Display movie titles by genre
   for (const genre in moviesByGenre) {
     const genreTitle = document.createElement("h3");
@@ -94,30 +88,6 @@ function updateListingCard() {
   }
 }
 
-// Function to toggle the selection of a genre
-function toggleGenreSelection(genre) {
-  const genreCheckbox = document.getElementById(`genre-${genre.toLowerCase()}`);
-
-  if (genreCheckbox.checked) {
-    selectedGenres.add(genre);
-  } else {
-    selectedGenres.delete(genre);
-  }
-
-  // Clear movie titles array and update listing card
-  movieTitles = [];
-  updateListingCard();
-
-  //Fetch movie titles for selected genres
-  const userAnswersString = localStorage.getItem('userAnswers');
-  if (userAnswersString) {
-    const userAnswers = JSON.parse(userAnswersString);
-    includeForeign = userAnswers[1] === 'yes'; // User's preference for foreign movies is stored at index 1
-  }
-  for (const genre of selectedGenres) {
-    getMovieList(genre);
-  }
-}
 //Update function to fetch movie titles for each genre and store in movieTitles array
 function getMovieList(genre) {
   const filter = "&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=" +
@@ -170,6 +140,11 @@ function toggleGenreSelection(genre) {
   updateListingCard();
 
   //Fetch movie titles for selected genres
+  const userAnswersString = localStorage.getItem('userAnswers');
+  if (userAnswersString) {
+    const userAnswers = JSON.parse(userAnswersString);
+    includeForeign = userAnswers[1] === 'yes'; // User's preference for foreign movies is stored at index 1
+  }
   for (const genre of selectedGenres) {
     getMovieList(genre);
   }
