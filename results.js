@@ -1,26 +1,12 @@
 var tokenAuth =
   "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxMDY1MGQ2Y2JmOWMyOGIwMjBlNmQxZTNhMGJmOGIwYSIsInN1YiI6IjY1MTYwNmJmMDQ5OWYyMDBjNDRmMDA3MyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.PqZrJd3GjkOHwgflqWPOSyMjZZck7e0HJ-B8cn_3rP4";
 var apiKey = "10650d6cbf9c28b020e6d1e3a0bf8b0a"; //TMDB API key
-
-//var apiKey =
-// "10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"; //TMDB API key
-let genreIdsByTitle = {}; //Store genre information for each title
 var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
-// var url = "https://api.themoviedb.org/3/discover/movie?api_key=10650d6cbf9c28b020e6d1e3a0bf8b0a&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=16"
-var selectedGenres = new Set(); // Set to store selected genres
-let includeForeign = true; // Assume default is to include foreign movies
-
-var baseUrl = "https://api.themoviedb.org/3/discover/movie?api_key="; //TMDB url
-
 let movieTitles = [];
+let moviesByGenre = {};
 let genreIdsByTitle = {}; //Store genre information for each title
-
 let selectedGenres = new Set(); //SelectedGenres is a global variable
 let includeForeign = true; // Assume default is to include foreign movies
-
-
-
-
 
 var genreIds = {
   Action: 28,
@@ -50,30 +36,21 @@ document.addEventListener("DOMContentLoaded", function () {
   if (userAnswersString) {
     const userAnswers = JSON.parse(userAnswersString);
 
-
-    // Extract selected genres and actors from user answers
-
+   // Extract selected genres and actors from user answers
     const selectedGenresFromUser = userAnswers[0];
-    // const selectedActors = userAnswers[3];
 
     // Display selected genres and actors
     updateSelectedGenresDisplay(selectedGenresFromUser);
-    // selectedActors(selectedActors);
 
     // Fetch movies based on selected genres
     getMovieList(selectedGenresFromUser);
-
     const selectedGenres = userAnswers[0];
-    // const selectedActors = userAnswers[3];
 
     // Display selected genres and actors
     updateSelectedGenresDisplay(selectedGenres);
-    // selectedActors(selectedActors);
 
     // Fetch movies based on selected genres
-    fetchMovies(selectedGenres);
-
-    
+    getMovieList(selectedGenres);
   }
 });
 
@@ -90,60 +67,24 @@ function updateSelectedGenresDisplay(selectedGenres) {
   });
 }
 
-
 // Update the display listing with Movie titles
 function updateListingCard() {
-
   const displayTitle = document.getElementById("movieTitle");
   displayTitle.innerHTML = ""; //clear previous content
 
-  const displayTitle = document.getElementById("movietitle");
-  displayTitle.innerHTML = ""; // Clear previous content
+  // Display movie titles by genre
+  for (const genre in moviesByGenre) {
+    const genreTitle = document.createElement("h3");
+    genreTitle.textContent = genre;
+    displayTitle.appendChild(genreTitle);
 
-  // Remove duplicate movie titles
-  const uniqueMovieTitles = Array.from(new Set(movieTitles)); // Remove duplicates
-
-
-
-    const movieName = document.getElementById("movieName");
-    movieName.textContent = uniqueMovieTitles.join(", ");
-
-    // Group movie titles by genre
-    const moviesByGenre = {};
-
-
-
-    // Group movie titles by genre
-    const moviesByGenre = {};
-
-
-    // Iterate through the movie titles and organize them by genre
-    for (const title of movieTitles) {
-      const genres = genreIdsByTitle[title];
-      if (genres) {
-        for (const genre of genres) {
-          if (!moviesByGenre[genre]) {
-            moviesByGenre[genre] = [];
-          }
-          moviesByGenre[genre].push(title);
-        }
-      }
+    const movieList = document.createElement("ul");
+    for (const title of moviesByGenre[genre]) {
+      const movieItem = document.createElement("li");
+      movieItem.textContent = title;
+      movieList.appendChild(movieItem);
     }
-
-    // Display movie titles by genre
-    for (const genre in moviesByGenre) {
-      const genreTitle = document.createElement("h3");
-      genreTitle.textContent = genre;
-      displayTitle.appendChild(genreTitle);
-
-      const movieList = document.createElement("ul");
-      for (const title of moviesByGenre[genre]) {
-        const movieItem = document.createElement("li");
-        movieItem.textContent = title;
-        movieList.appendChild(movieItem);
-      }
-      displayTitle.appendChild(movieList);
-    }
+    displayTitle.appendChild(movieList);
   }
 }
 
@@ -164,7 +105,7 @@ function getMovieList(genre) {
 
   //Exclude foreign movies if the user does not want to see them
   if (!includeForeign) {
-    filter += '&language=en-US&with_original_language=en';
+    filter += "&language=en-US&with_original_language=en";
   }
 
   fetch(baseUrl + apiKey + filter)
@@ -175,19 +116,23 @@ function getMovieList(genre) {
       // Filter out duplicates and only add unique movie titles
       console.log(data.results)
       //Collect titles for current genre
-      const uniqueMovieTitles = data.results.map(result => result.original_title);
+      uniqueMovieTitles = data.results.map(result => result.original_title);
       // Store genre information for each title
       for (const title of uniqueMovieTitles) {
         if (!genreIdsByTitle[title]) {
           genreIdsByTitle[title] = [];
         }
         genreIdsByTitle[title].push(genre);
+
+        // Update moviesByGenre object
+        if (!moviesByGenre[genre]) {
+          moviesByGenre[genre] = [];
+        }
+        moviesByGenre[genre].push(title);
       }
       movieTitles.push(...uniqueMovieTitles);
       updateListingCard(); // Update the listing card after fetching movie titles
     });
-
-}
 }
 
 // Function to toggle the selection of a genre
@@ -213,3 +158,5 @@ function toggleGenreSelection(genre) {
   for (const genre of selectedGenres) {
     getMovieList(genre);
   }
+}
+
