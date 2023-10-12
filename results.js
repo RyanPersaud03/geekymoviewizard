@@ -36,8 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
   if (userAnswersString) {
     const userAnswers = JSON.parse(userAnswersString);
 
-    // Extract selected genres and actors from user answers
-
+   // Extract selected genres and actors from user answers
     const selectedGenresFromUser = userAnswers[0];
 
     // Display selected genres and actors
@@ -45,7 +44,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fetch movies based on selected genres
     getMovieList(selectedGenresFromUser);
-
     const selectedGenres = userAnswers[0];
 
     // Display selected genres and actors
@@ -53,7 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fetch movies based on selected genres
     getMovieList(selectedGenres);
-
   }
 });
 
@@ -75,9 +72,6 @@ function updateListingCard() {
   const displayTitle = document.getElementById("movieTitle");
   displayTitle.innerHTML = ""; //clear previous content
 
-  // // Group movie titles by genre
-  // const moviesByGenre = {};
-
   // Display movie titles by genre
   for (const genre in moviesByGenre) {
     const genreTitle = document.createElement("h3");
@@ -93,20 +87,6 @@ function updateListingCard() {
     displayTitle.appendChild(movieList);
   }
 }
-
-// Function to toggle the selection of a genre
-function toggleGenreSelection(genre) {
-  const genreCheckbox = document.getElementById(`genre-${genre.toLowerCase()}`);
-
-  if (genreCheckbox.checked) {
-    selectedGenres.add(genre);
-  } else {
-    selectedGenres.delete(genre);
-  }
-
-  // Clear movie titles array and update listing card
-  movieTitles = [];
-  updateListingCard();
 
   //Fetch movie titles for selected genres
   const userAnswersString = localStorage.getItem('userAnswers');
@@ -170,7 +150,13 @@ function toggleGenreSelection(genre) {
   updateListingCard();
 
   //Fetch movie titles for selected genres
+  const userAnswersString = localStorage.getItem('userAnswers');
+  if (userAnswersString) {
+    const userAnswers = JSON.parse(userAnswersString);
+    includeForeign = userAnswers[1] === 'yes'; // User's preference for foreign movies is stored at index 1
+  }
   for (const genre of selectedGenres) {
     getMovieList(genre);
   }
 }
+
