@@ -88,19 +88,19 @@ function updateListingCard() {
   }
 }
 
-  //Fetch movie titles for selected genres
-  const userAnswersString = localStorage.getItem('userAnswers');
-  if (userAnswersString) {
-    const userAnswers = JSON.parse(userAnswersString);
-    includeForeign = userAnswers[1] === 'yes'; // User's preference for foreign movies is stored at index 1
-  }
-  for (const genre of selectedGenres) {
-    getMovieList(genre);
-  }
+//Fetch movie titles for selected genres
+const userAnswersString = localStorage.getItem('userAnswers');
+if (userAnswersString) {
+  const userAnswers = JSON.parse(userAnswersString);
+  includeForeign = userAnswers[1] === 'yes'; // User's preference for foreign movies is stored at index 1
+}
+for (const genre of selectedGenres) {
+  getMovieList(genre);
+}
 
 //Update function to fetch movie titles for each genre and store in movieTitles array
 function getMovieList(genre) {
-  const filter = "&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=" +
+  let filter = "&language=en-US&sort_by=primary_release_date.desc&page=1&primary_release_year=2020&with_genres=" +
     genreIds[genre];
 
   //Exclude foreign movies if the user does not want to see them
