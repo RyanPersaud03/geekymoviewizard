@@ -26,6 +26,11 @@ https://github.com/RyanPersaud03/geekymoviewizard
 # Deployed WebPage URL
 https://ryanpersaud03.github.io/geekymoviewizard/ 
 
+## Developers Contact Information
+1. Maria Afzal maria.binte.afzal@gmail.com https://github.com/afzama
+2. Ryan Persaud ryanpersaud811@gmail.com https://github.com/RyanPersaud03
+3. Mohamed Khalil mohamedkhalil10100@gmail.com https://github.com/mk10100 
+
 ## API URLS
 Movie Titles: https://developer.themoviedb.org/reference/discover-movie 
 Grab Movie Cast: https://www.themoviedb.org/talk/57f92781c3a36850a400422d?language=en-CA
